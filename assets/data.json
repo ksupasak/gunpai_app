@@ -1,0 +1,31 @@
+{
+  "locations": [
+    {
+      "image": "https://files.worldwildlife.org/wwfcmsprod/images/Panda_in_Tree/hero_full/2wgwt9z093_Large_WW170579.jpg",
+      "video": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "ls": "Location 1"
+    },
+    {
+      "image": "https://files.worldwildlife.org/wwfcmsprod/images/Pandas_204718/story_full_width/87o81dodvo_HI_204718.jpg",
+      "video": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "ls": "Location 2"
+    }
+  ],
+  "events": [
+    {
+      "type": "Alert",
+      "detail": "3 people detected in restricted area.",
+      "datetime": "12/1/2025 08:32",
+      "video": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "image": "https://files.worldwildlife.org/wwfcmsprod/images/Panda_in_Tree/hero_full/2wgwt9z093_Large_WW170579.jpg"
+    },
+    {
+      "type": "Warn",
+      "detail": "Suspicious activity detected near the park.",
+      "datetime": "12/1/2025 08:33",
+      "video": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "image": "https://files.worldwildlife.org/wwfcmsprod/images/Pandas_204718/story_full_width/87o81dodvo_HI_204718.jpg"
+    }
+  ]
+}
+
