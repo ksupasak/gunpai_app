@@ -38,11 +38,15 @@ dependencies:
   webview_flutter: ^4.0.0
   video_player: ^2.9.5
   mqtt_client: ^9.6.0 
-  flutter_local_notifications: ^9.0.0
+  #flutter_local_notifications: ^9.0.0
+
+  
  
   
 
 dev_dependencies:
+  flutter_test:
+    sdk: flutter
  
 
 

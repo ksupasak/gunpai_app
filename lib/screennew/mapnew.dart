@@ -1,19 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // ใช้ rootBundle โหลดไฟล์
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:gungun/screennew/events.dart';
 import 'package:gungun/screennew/eventdetail.dart';
+import 'package:gungun/screennew/imagenew.dart';
 import 'package:gungun/screennew/mapicon.dart';
+import 'package:gungun/screennew/videonew.dart';
+import 'package:gungun/services/mqtt_service.dart';
 import 'package:video_player/video_player.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-
-// นำเข้าไฟล์ที่เกี่ยวข้องกับหน้าต่าง
-import 'package:gungun/screennew/imagenew.dart'; // หน้า Imagegun
-import 'package:gungun/screennew/videonew.dart'; // หน้า VideoScreen
-import 'package:gungun/screennew/mapnew.dart'; // หน้า MapNewScreen
-import 'package:gungun/services/mqtt_service.dart'; // ใช้ไฟล์ MQTTService ที่สร้างขึ้น
-import 'package:gungun/services/notification_service.dart'; // ใช้ NotificationService ที่สร้างขึ้น
 
 class MapNewScreen extends StatefulWidget {
   @override
@@ -24,50 +19,27 @@ class _MapNewScreenState extends State<MapNewScreen> {
   late WebViewController _controller;
   List<Event> events = [];
   late MQTTService mqttService;
-  late NotificationService notificationService;
   String message = "No event yet";
-  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
   @override
   void initState() {
     super.initState();
     loadJsonData();
 
-    notificationService = NotificationService();
-    notificationService.initialize();
-
-    // กำหนดค่าการแจ้งเตือนสำหรับทั้ง Android และ iOS
-    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    var initializationSettingsAndroid = AndroidInitializationSettings('app_icon');
-    var initializationSettingsIOS = IOSInitializationSettings();
-    var initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsIOS,
-    );
-    flutterLocalNotificationsPlugin.initialize(initializationSettings);
-
-  
     mqttService = MQTTService();
     mqttService.connect();
     mqttService.listenToMessages((newMessage) {
       setState(() {
-        
-        var jsonMessage = json.decode(newMessage);  
+        var jsonMessage = json.decode(newMessage);
 
-       
         Event event = Event.fromJson(jsonMessage);
-        
-        print(event);
-       
-        //events.add(event);  
-        events.insert(0, event);  // เพิ่ม event ใหม่ที่ตำแหน่งแรก (index 0)
+
+        // Add the new event to the start of the events list
+        events.insert(0, event); 
       });
 
-      
-      _showNotification(message);
     });
 
-    
     _controller =
         WebViewController()
           ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -78,7 +50,7 @@ class _MapNewScreenState extends State<MapNewScreen> {
             ),
           );
 
-    
+    // Additional JavaScript for controlling map
     _controller.runJavaScript('''
       map.dragging.enable();
       map.touchZoom.enable();
@@ -105,25 +77,6 @@ class _MapNewScreenState extends State<MapNewScreen> {
     });
   }
 
-  // Show a notification when a new message is received
-  Future<void> _showNotification(String message) async {
-    var androidDetails = AndroidNotificationDetails(
-      'your_channel_id', 'your_channel_name',
-      importance: Importance.high,
-      priority: Priority.high,
-      ticker: 'ticker',
-    );
-    var iOSDetails = IOSNotificationDetails();
-    var notificationDetails = NotificationDetails(android: androidDetails, iOS: iOSDetails);
-
-    await flutterLocalNotificationsPlugin.show(
-      0,  // Notification ID
-      'New Event Alert',  // Notification title
-      message,  // Message content
-      notificationDetails,  // Notification details
-    );
-  }
-
   // Delete event from the list
   void deleteEvent(int index) {
     setState(() {
@@ -134,28 +87,41 @@ class _MapNewScreenState extends State<MapNewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 33, 45, 106),
- // AppBar color
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: const Color.fromARGB(255, 254, 252, 252)),  // Back button
-          onPressed: () {
-            Navigator.pop(context);  // Navigate back to the previous screen
-          },
-        ),
-        title: Row(
-          children: [
-            // App logo
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset('assets/logo.png', width: 30, height: 30),
-            ),
-          ],
+  backgroundColor: const Color.fromARGB(255, 33, 45, 106), // AppBar color
+  leading: IconButton(
+    icon: Icon(Icons.arrow_back, color: const Color.fromARGB(255, 254, 252, 252)),  // Back button
+    onPressed: () {
+      Navigator.pop(context);  // Navigate back to the previous screen
+    },
+  ),
+  title: Row(
+    mainAxisAlignment: MainAxisAlignment.start,  // Align all children to the start
+    children: [
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Image.asset('assets/logo.png', width: 30, height: 30),
+      ),
+      //Spacer(),  // This will push the text to the center
+      Text(
+        "Gunpai",
+        style: TextStyle(
+          color: Colors.white,  // Text color
+          fontSize: 20,  // Text size
+          fontWeight: FontWeight.bold,  // Text weight
         ),
       ),
+      Spacer(),  // This makes sure "Gunpai" is truly in the center
+    ],
+  ),
+),
+
+
+
+
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color.fromARGB(255, 33, 45, 106),
-  // BottomNavigationBar color
+        backgroundColor: const Color.fromARGB(255, 33, 45, 106), // BottomNavigationBar color
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white,
         items: const <BottomNavigationBarItem>[
@@ -176,12 +142,10 @@ class _MapNewScreenState extends State<MapNewScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // WebView to display the map
             Container(
               height: 300,
               child: WebViewWidget(controller: _controller),
             ),
-            // Display the events
             Container(
               padding: EdgeInsets.all(8),
               color: Colors.grey[200],
@@ -194,10 +158,10 @@ class _MapNewScreenState extends State<MapNewScreen> {
                   ...events.map((event) {
                     int index = events.indexOf(event);
                     return Dismissible(
-                      key : Key(index.toString()),
+                      key: Key('${event.datetime}_${event.type}_${events.indexOf(event)}'), // Ensure unique key
                       direction: DismissDirection.endToStart,
                       onDismissed: (direction) {
-                        deleteEvent(index);  // Delete event on swipe
+                        deleteEvent(event as int);  // Delete event on swipe
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Event deleted')));
                       },
                       background: Container(
@@ -235,7 +199,6 @@ class _MapNewScreenState extends State<MapNewScreen> {
                 ],
               ),
             ),
-            // Monitoring section
             Container(
               padding: EdgeInsets.all(8),
               color: Colors.grey[200],
@@ -263,7 +226,6 @@ class _MapNewScreenState extends State<MapNewScreen> {
                 ],
               ),
             ),
-            // Display MQTT message
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text('Event: $message', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
@@ -274,6 +236,7 @@ class _MapNewScreenState extends State<MapNewScreen> {
     );
   }
 }
+
 
 
 
