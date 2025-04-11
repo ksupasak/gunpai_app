@@ -63,7 +63,7 @@ class HomeScreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 16),
                 minimumSize: Size(double.infinity, 0),
               ),
-              child: Text(
+              child: Text(  
                 'Log in',
                 style: TextStyle(fontSize: 18, color: Colors.white),
               ),
