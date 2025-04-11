@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
-                hintText: 'sername or email address',
+                hintText: 'Username or Email address',
                 hintStyle: TextStyle(color: Colors.grey),
                 border: OutlineInputBorder(),
               ),
@@ -59,7 +59,7 @@ class HomeScreen extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 8, 19, 227),
+               backgroundColor: const Color.fromARGB(255, 33, 45, 106),
                 padding: EdgeInsets.symmetric(vertical: 16),
                 minimumSize: Size(double.infinity, 0),
               ),

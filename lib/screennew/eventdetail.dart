@@ -22,8 +22,8 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
     super.initState();
 
     // ตรวจสอบว่ามี URL ของวิดีโอหรือไม่
-    if (widget.event['video'] != null) {
-      _controller = VideoPlayerController.network(widget.event['video'])
+    if (widget.event.video!= null) {
+      _controller = VideoPlayerController.network(widget.event.video)
         ..initialize().then((_) {
           setState(() {
             isLoading = false;
@@ -88,34 +88,34 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
             ),
             // แสดงข้อมูล Event
             Card(
-              color: widget.event['type'] == 'Alert' ? Colors.red[100] : Colors.yellow[100],
+              color: widget.event.type == 'Alert' ? Colors.red[100] : Colors.yellow[100],
               elevation: 5,
               child: ListTile(
                 leading: Icon(
-                  widget.event['type'] == 'Alert'
+                  widget.event.type == 'Alert'
                       ? Icons.warning
                       : Icons.warning_amber,
-                  color: widget.event['type'] == 'Alert' ? Colors.red : Colors.yellow,
+                  color: widget.event.type == 'Alert' ? Colors.red : Colors.yellow,
                 ),
                 title: Text(
-                  widget.event['type'],
+                  widget.event.type,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 subtitle: Text(
-                  'Detail: ${widget.event['detail']}\nDatetime: ${widget.event['datetime']}',
+                  'Detail: ${widget.event.detail}\nDatetime: ${widget.event.datetime}',
                   style: TextStyle(color: Colors.black),
                 ),
               ),
             ),
             // ถ้ามีภาพจาก URL
-            if (widget.event['image'] != null)
+            if (widget.event.type != null)
               Image.network(
-                widget.event['image'],
+                widget.event.image,
                 width: double.infinity, // กำหนดขนาดภาพเต็มหน้าจอ
                 fit: BoxFit.cover, // ปรับภาพให้เหมาะสม
               ),
             // ถ้ามี URL ของวิดีโอให้เล่น
-            if (widget.event['video'] != null)
+            if (widget.event.type != null)
               GestureDetector(
                 onTap: () {
                   setState(() {
@@ -139,7 +139,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                 ),
               ),
             
-            if (widget.event['video'] != null)
+            if (widget.event.video != null)
               ElevatedButton(
                 onPressed: stopVideo,
                 child: Text('Stop Video'),
