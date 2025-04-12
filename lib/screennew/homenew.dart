@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gungun/screennew/mapnew.dart';
+import 'package:gunpai/screennew/mapnew.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
