@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // ใช้ rootBundle โหลดไฟล์
-import 'package:gunpai/screennew/events.dart';
-import 'package:gunpai/screennew/eventdetail.dart';
-import 'package:gunpai/screennew/imagenew.dart';
-import 'package:gunpai/screennew/mapicon.dart';
-import 'package:gunpai/screennew/videonew.dart';
+import 'package:gunpai/screen/events.dart';
+import 'package:gunpai/screen/eventdetail.dart';
+import 'package:gunpai/screen/image.dart';
+import 'package:gunpai/screen/mapicon.dart';
+import 'package:gunpai/screen/video.dart';
 import 'package:gunpai/services/mqtt_service.dart';
 import 'package:video_player/video_player.dart';
 import 'package:webview_flutter/webview_flutter.dart';

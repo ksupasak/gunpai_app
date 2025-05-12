@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gunpai/screennew/homenew.dart';
+import 'package:gunpai/screen/home.dart';
 
 
 
@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'GUNPAI',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

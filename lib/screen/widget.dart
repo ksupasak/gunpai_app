@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gunpai/screennew/imagenew.dart';
-import 'package:gunpai/screennew/mapnew.dart';  // ใช้ MapNewScreen ที่นี่
-import 'package:gunpai/screennew/videonew.dart';
-import 'package:gunpai/screennew/videoscreen.dart'; 
-import 'package:gunpai/screennew/videoscreen.dart' as videoscreen;
+import 'package:gunpai/screen/image.dart';
+import 'package:gunpai/screen/map.dart';  // ใช้ MapNewScreen ที่นี่
+import 'package:gunpai/screen/video.dart';
+import 'package:gunpai/screen/videoscreen.dart'; 
+import 'package:gunpai/screen/videoscreen.dart' as videoscreen;
 
 class WidgetScreen extends StatelessWidget {
   const WidgetScreen({super.key});
