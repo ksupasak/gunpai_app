@@ -5,8 +5,9 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class EventDetailScreen extends StatefulWidget {
   final dynamic event; // รับข้อมูลเหตุการณ์จากหน้าหลัก
+  final Function refreshList;
 
-  EventDetailScreen({required this.event});
+  EventDetailScreen({required this.event, required this.refreshList});
 
   @override
   State<EventDetailScreen> createState() => _EventDetailScreenState();

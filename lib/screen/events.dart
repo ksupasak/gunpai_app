@@ -1,45 +1,63 @@
 // lib/models/event.dart
 import 'dart:convert';
 class Event {
-  String type;
-  String detail;
-  String datetime;
-  String video;
-  String image;
-  //String map_url;
+  final String id;
+  final String type;
+  final String detail;
+  final DateTime datetime;
+  final String video;
+  final String image;
+  final String status;
+  final String url;
+  final String? channelId;
+  final String? customerId;
+  final String? edgeId;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final String? eventData;
+  final String? latlng;
+  final String? name;
 
   Event({
+    required this.id,
     required this.type,
     required this.detail,
     required this.datetime,
     required this.video,
     required this.image,
-    //required this.map_url,
+    required this.status,
+    required this.url,
+    this.channelId,
+    this.customerId,
+    this.edgeId,
+    this.createdAt,
+    this.updatedAt,
+    this.eventData,
+    this.latlng,
+    this.name,
   });
 
-  // Convert JSON to Dart object
   factory Event.fromJson(Map<String, dynamic> json) {
+    print("\n");
+    print('Event: ${json}\n');
+
     return Event(
+      id: json['id'],
       type: json['type'],
       detail: json['detail'],
-      datetime: json['datetime'],
-      video: json['video'],
-      image: json['image'],
-      //map_url: json['map_url'],
+      datetime: DateTime.parse(json['datetime']),
+      video: json['video_path'] ?? '',
+      image: json['image_path'] ?? '',
+      status: json['status'] ?? '',
+      url: json['video_path'] ?? '',
+      channelId: json['channel_id'],
+      customerId: json['customer_id'],
+      edgeId: json['edge_id'],
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
+      eventData: json['event_data'],
+      latlng: json['latlng'],
+      name: json['name'],
     );
   }
-
-  void add(Event events) {}
-
-  // Convert Dart object to JSON
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     'type': type,
-  //     'detail': detail,
-  //     'datetime': datetime,
-  //     'video': video,
-  //     'image': image,
-  //   };
-  // }
 }
-

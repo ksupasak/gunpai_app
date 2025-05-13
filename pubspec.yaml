@@ -38,6 +38,8 @@ dependencies:
   webview_flutter: ^4.0.0
   video_player: ^2.9.5
   mqtt_client: ^9.6.0 
+  http: ^0.13.6 
+  uuid: ^4.2.1
   #flutter_local_notifications: ^9.0.0
 
   
