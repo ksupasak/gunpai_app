@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:image_downloader/image_downloader.dart';
+import 'package:gunpai/layouts/default/layout.dart';
 
 class EventDetailScreen extends StatefulWidget {
   final dynamic event; // รับข้อมูลเหตุการณ์จากหน้าหลัก
@@ -46,10 +49,30 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
       _controller.pause(); // หยุดการเล่นวิดีโอ
     });
   }
+ Future<void> _downloadImage() async {
+    try {
+      // Request permission
+      var status = await Permission.photos.request();
+      if (!status.isGranted) {
+        print("Permission denied");
+        openAppSettings();
+        return;
+      }
 
+      // Download and save
+      var imageId = await ImageDownloader.downloadImage(widget.event.image);
+      if (imageId == null) return;
+
+      print("Image saved: $imageId");
+    } catch (error, stackTrace) {
+      print("Error downloading image: $error");
+      print(stackTrace);
+    }
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MainLayout(
+      title: 'Event Details',
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 249, 249, 249),
         leading: Row(
@@ -110,10 +133,13 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
             ),
             // ถ้ามีภาพจาก URL
             if (widget.event.type != null)
-              Image.network(
-                widget.event.image,
-                width: double.infinity, // กำหนดขนาดภาพเต็มหน้าจอ
-                fit: BoxFit.cover, // ปรับภาพให้เหมาะสม
+              GestureDetector(
+                onTap: _downloadImage,
+                child: Image.network(
+                  widget.event.image,
+                  width: double.infinity, // กำหนดขนาดภาพเต็มหน้าจอ
+                  fit: BoxFit.cover, // ปรับภาพให้เหมาะสม
+                ),
               ),
             // ถ้ามี URL ของวิดีโอให้เล่น
             if (widget.event.type != null)

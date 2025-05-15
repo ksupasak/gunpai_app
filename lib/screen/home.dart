@@ -1,8 +1,13 @@
 import 'dart:convert';
+import 'package:gallery_saver/gallery_saver.dart';
+import 'package:permission_handler/permission_handler.dart';
+
+import 'package:gunpai/layouts/default/layout.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // ใช้ rootBundle โหลดไฟล์
 import 'package:gunpai/screen/events.dart';
-import 'package:gunpai/screen/eventdetail.dart';
+import 'package:gunpai/screen/event_detail.dart';
 import 'package:gunpai/screen/image.dart';
 import 'package:gunpai/screen/mapicon.dart';
 import 'package:gunpai/screen/video.dart';
@@ -27,6 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     // loadJsonData();
     loadEventsFromApi();
+
+    saveTestVideo();
     // mqttService = MQTTService();
     // mqttService.connect();
     // mqttService.listenToMessages((newMessage) {
@@ -118,6 +125,20 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+
+Future<void> saveTestVideo() async {
+  await Permission.photos.request();
+
+  final url = 'https://files.worldwildlife.org/wwfcmsprod/images/Pandas_204718/story_full_width/87o81dodvo_HI_204718.jpg';
+  final result = await GallerySaver.saveVideo(url);
+
+  if (result == true) {
+    print('Saved to gallery');
+  } else {
+    print('Failed to save');
+  }
+}
+
 void _confirmAndDelete(String? eventId) {
     if (eventId == null || eventId.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -192,60 +213,9 @@ void _confirmAndDelete(String? eventId) {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-
-      appBar: AppBar(
-  backgroundColor: const Color.fromARGB(255, 33, 45, 106), // AppBar color
-  leading: IconButton(
-    icon: Icon(Icons.arrow_back, color: const Color.fromARGB(255, 254, 252, 252)),  // Back button
-    onPressed: () {
-      Navigator.pop(context);  // Navigate back to the previous screen
-    },
-  ),
-  title: Row(
-    mainAxisAlignment: MainAxisAlignment.start,  // Align all children to the start
-    children: [
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Image.asset('assets/logo.png', width: 30, height: 30),
-      ),
-      //Spacer(),  // This will push the text to the center
-      Text(
-        "Gunpai",
-        style: TextStyle(
-          color: Colors.white,  // Text color
-          fontSize: 20,  // Text size
-          fontWeight: FontWeight.bold,  // Text weight
-        ),
-      ),
-      Spacer(),  // This makes sure "Gunpai" is truly in the center
-    ],
-  ),
-),
-
-
-
-
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color.fromARGB(255, 33, 45, 106), // BottomNavigationBar color
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home, color: Colors.white), label: 'Dashboard'),
-          BottomNavigationBarItem(icon: Icon(Icons.image, color: Colors.white), label: 'Image'),
-          BottomNavigationBarItem(icon: Icon(Icons.video_camera_back, color: Colors.white), label: 'Video'),
-        ],
-        onTap: (index) {
-          if (index == 0) {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
-          } else if (index == 1) {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => Imagegun()));
-          } else if (index == 2) {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => VideoScreen()));
-          }
-        },
-      ),
-      body: SingleChildScrollView(
+    return MainLayout(
+      title: 'Home',
+      child: SingleChildScrollView(
         child: Column(
           children: [
             Container(

@@ -28,6 +28,10 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>We need access to save photos or videos to your library</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need photo library access</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -45,5 +49,12 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UISupportsDocumentBrowser</key>
+	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>UIFileSharingEnabled</key>
+	<true/>
+	
 </dict>
 </plist>

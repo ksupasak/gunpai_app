@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Imagegun extends StatelessWidget {
+class ImageScreen extends StatelessWidget {
   // สร้าง mock data array (ชื่อของรูปและ URL ของรูปภาพ)
   final List<Map<String, String>> mockData = [
     {'title': 'Source1', 'imageUrl': 'https://files.worldwildlife.org/wwfcmsprod/images/Panda_in_Tree/hero_full/2wgwt9z093_Large_WW170579.jpg'},
@@ -100,6 +100,6 @@ class Imagegun extends StatelessWidget {
 
 void main() {
   runApp(MaterialApp(
-    home: Imagegun(),
+    home: ImageScreen(),
   ));
 }

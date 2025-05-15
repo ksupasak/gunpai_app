@@ -40,12 +40,13 @@ class Event {
   factory Event.fromJson(Map<String, dynamic> json) {
     print("\n");
     print('Event: ${json}\n');
+    print('Datetime: ${json.keys.join(', ')}\n');
 
     return Event(
       id: json['id'],
-      type: json['type'],
-      detail: json['detail'],
-      datetime: DateTime.parse(json['datetime']),
+      type: json['type'] ?? '',
+      detail: json['detail'] ?? '',
+      datetime: DateTime.parse(json['datetime'] ?? ''),
       video: json['video_path'] ?? '',
       image: json['image_path'] ?? '',
       status: json['status'] ?? '',
